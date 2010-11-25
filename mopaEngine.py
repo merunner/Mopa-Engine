@@ -1,12 +1,21 @@
 #!/usr/bin/env python
 
-class MopaEngine(object):
+import pygame
+from pygame.locals import *
+import sys
+import random
+
+class MopaGame(object):
+
+    
 
     def __init__(self):
-        self.game = None
-
+        self.DISP_MODE = (800,600)
+        pygame.display.init()    
+        self.screen = pygame.display.set_mode(self.DISP_MODE, FULLSCREEN, 32)    
+      
     def load(self):
-        pass
+        self.game.load()
     
     def listen(self):
         pass
@@ -20,19 +29,42 @@ class MopaEngine(object):
     def flush(self):
         print 'Flush!'
 
-    def run(self):
-        while True:
-            try:
-                self.load()
-                self.listen()
-                self.update()
-                self.render()
-                self.flush()
+    def initStars(self):
+        qtdStars = 100
+        stars = []        
+        radius = 1
+        for _ in range(qtdStars):
+            surface = pygame.Surface((radius,radius))
+            y = random.randint(10, self.DISP_MODE[1])
+            x = random.randint(10, self.DISP_MODE[0])
+            pygame.draw.circle(surface, (255, 255,255), (0,0), radius)
             
-            except Exception, e:
-                break
+            stars.append((surface,x,y))
+            
+        return stars
+    
+
+    def run(self):
+        
+        #random.seed(3)
+        stars = self.initStars()
+        
+        
+        
+        while True:
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    sys.exit()
+                if event.type == KEYDOWN and event.key == K_ESCAPE:
+                    sys.exit()
+
+            self.screen.fill((0,0,0))
+            for star in stars:
+                self.screen.blit(star[0], (star[1],star[2]))
+            
+            pygame.display.update()
 
 
 if __name__ == '__main__':
-    mopaEngine = MopaEngine()
+    mopaEngine = MopaGame()
     mopaEngine.run()
