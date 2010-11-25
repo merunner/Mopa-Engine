@@ -30,14 +30,24 @@ class MopaGame(object):
         print 'Flush!'
 
     def initStars(self):
-        qtdStars = 100
+        qtdStars = 50
         stars = []        
         radius = 1
-        for _ in range(qtdStars):
+        for _ in range(qtdStars/2):
             surface = pygame.Surface((radius,radius))
             y = random.randint(10, self.DISP_MODE[1])
             x = random.randint(10, self.DISP_MODE[0])
-            pygame.draw.circle(surface, (255, 255,255), (0,0), radius)
+            pygame.draw.circle(surface, (255, 255,255), (radius,radius), radius)
+            
+            stars.append((surface,x,y))
+        
+        bigger = 2
+        
+        for _ in range(qtdStars/2):
+            surface = pygame.Surface((radius*2,radius*2))
+            y = random.randint(10, self.DISP_MODE[1])
+            x = random.randint(10, self.DISP_MODE[0])
+            pygame.draw.circle(surface, (255, 255,255), (radius,radius), radius +bigger)
             
             stars.append((surface,x,y))
             
